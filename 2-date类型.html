@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2-date类型</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
+</head>
+<body>
+<div id="el-main">
+    <div class="form-group">
+        <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
+        <div class="input-group date form_datetime col-md-5"  data-date-format="yyyy-mm-dd hh:mm:ss">
+            <input class="form-control"  type="text" id="messageSendTime"  v-model="dateValue">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+        </div>
+        <input type="hidden" id="dtp_input1" value="" /><br/>
+    </div>
+    <button @click="detail()">查看值</button>
+</div>
+</body>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el:'#el-main',
+        mounted:function () {
+            this.dateDefind();
+        },
+        data:{
+            dateValue:''
+        },
+        watch:{
+            dateValue:function (newValue,old) {
+                console.log(newValue);
+            }
+        },
+        methods:{
+            detail:function () {
+                console.log(this.dateValue);
+            },
+            dateDefind:function(){
+                var d, s;
+                var self = this;
+                d = new Date();
+                s = d.getFullYear() + "-";       //取年份
+                s = s + (d.getMonth() + 1) + "-";//取月份
+                s += d.getDate() + " ";     //取日期
+                s += d.getHours() + ":";    //取小时
+                s += d.getMinutes() + ":";  //取分
+                s += d.getSeconds();     //取秒
+                self.dateValue = s;
+                //初始化
+                $('.date').datetimepicker({
+                    startDate: s,
+                    minView: "hour", //选择日期后，不会再跳转去选择时分秒
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd hh:ii:ss',
+                    todayBtn: 1,
+                    autoclose: 1
+                });
+                //当选择器隐藏时，讲选择框只赋值给data里面的time
+                $('.date').datetimepicker()
+                    .on('hide', function (ev) {
+                        var value = $("#messageSendTime").val();
+                        self.dateValue = value;
+                    });
+            }
+        }
+    })
+</script>
+</html>

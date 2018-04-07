@@ -1,0 +1,110 @@
+<script>
+    var originJson = {
+        "data": {
+            "2018-03-27": [{
+                "itemName": "IP",
+                "data_Y": "2400"
+            }, {
+                "itemName": "IPV6",
+                "data_Y": "1710"
+            }, {
+                "itemName": "ICMP",
+                "data_Y": "1700"
+            }, {
+                "itemName": "TCP",
+                "data_Y": "1400"
+            }, {
+                "itemName": "UDP",
+                "data_Y": "800"
+            }],
+            "2018-03-29": [{
+                "itemName": "IPV6",
+                "data_Y": "862"
+            }, {
+                "itemName": "ICMP",
+                "data_Y": "1246"
+            }, {
+                "itemName": "TCP",
+                "data_Y": "600"
+            }, {
+                "itemName": "UDP",
+                "data_Y": "1225"
+            }, {
+                "itemName": "IP",
+                "data_Y": "0"
+            }],
+            "2018-03-28": [{
+                "itemName": "IPV6",
+                "data_Y": "862"
+            }, {
+                "itemName": "ICMP",
+                "data_Y": "1246"
+            }, {
+                "itemName": "TCP",
+                "data_Y": "600"
+            }, {
+                "itemName": "UDP",
+                "data_Y": "1225"
+            }, {
+                "itemName": "IP",
+                "data_Y": "0"
+            }]
+        }
+    }
+    console.log(jsonServer2Front(originJson))
+
+    function jsonServer2Front(originJson) {
+        var originObj = originJson['data'],
+            tempArr = [],
+            key = '',
+            result = {}
+
+        for (var i in originObj) {
+            console.log(i, originObj[i])
+            key = i //当前日期
+            valArr = originObj[i] //当前日期下的数据对象
+
+            var key2 = '',
+                valArr2 = [],
+                result2 = {}
+
+            // 遍历当前日期下的数据组
+            for (var i2 in valArr) {
+                // 如果result2中【没有】valArr[i2][itemName]这个键名，将此键名赋值给result2并创建数组，推入当前'data_Y'
+                if (!(valArr[i2]['itemName'] === key2)) {
+                    key2 = valArr[i2]['itemName']
+                    result2[key2] = []
+                    result2[key2].push(valArr[i2]['data_Y'])
+                    
+                // 如果result2中【已有】valArr[i2][itemName]这个键名，则直接将当前项的'data_Y'推入valArr2[key2]数组中
+                } else {
+                    result2[key2].push(valArr[i2]['data_Y'])
+                }
+            }
+
+            // 将当前日期作为键名，将result2对象作为键值，赋值给result
+            result[key] = result2
+        }
+
+        return result
+    }
+
+    // {
+    //     '2018-03-27': [{
+    //         name: 'ivp',
+    //         data: [2400, 1710, ...]
+    //     }, {
+    //         name: 'ip',
+    //         data: [2400, 1710, ...]
+    //     }, ]
+    // }
+
+    function jsonFront2Server(obj) {
+        var result={};
+        for(var item in obj){
+
+        }
+    }
+
+    //console.log(jsonServer2Front);
+</script>
